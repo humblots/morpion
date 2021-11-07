@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddPlayerActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:textSize="64px"
+            android:textStyle="bold"
+            android:text="Ajouter un joueur"
+            android:gravity="center"/>
+
+        <RelativeLayout
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/profilepic"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:src="@drawable/playerdefault"/>
+
+            <Button
+                android:id="@+id/button_image"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:backgroundTint="#2a2a2a"
+                android:text="+"
+                android:onClick="onClickAddImage"/>
+
+        </RelativeLayout>
+
+
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nom"/>
+
+
+        <Button
+            android:id="@+id/save_btn"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="15dp"
+            android:backgroundTint="#2a2a2a"
+            android:text="Enregistrer"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
