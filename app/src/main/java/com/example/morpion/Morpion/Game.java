@@ -89,4 +89,6 @@ public class Game {
     public Player getCurrentPlayer() {
         return players[playerTurn];
     }
+
+    public Player getSecondPlayer() { return players[1 - playerTurn]; }
 }

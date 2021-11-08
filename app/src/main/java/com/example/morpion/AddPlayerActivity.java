@@ -1,5 +1,7 @@
 package com.example.morpion;
 
+import static com.example.morpion.Utils.BitMapToString;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -9,32 +11,34 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Base64;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.morpion.db.AppDatabase;
 import com.example.morpion.db.DatabaseClient;
 import com.example.morpion.db.Player;
-import com.example.morpion.db.Score;
 
-import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 public class AddPlayerActivity extends AppCompatActivity {
 
     private static final int RESULT_LOAD_IMG = 1;
-    private DatabaseClient db;
+    private AppDatabase db;
     private ImageView profilepic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_player);
-        db = DatabaseClient.getInstance(getApplicationContext());
+        db = DatabaseClient.getInstance(getApplicationContext()).getAppDatabase();
         profilepic = findViewById(R.id.profilepic);
+        Button btn = findViewById(R.id.save_btn);
+        btn.setOnClickListener(v -> savePlayer());
     }
 
     private void savePlayer() {
@@ -54,21 +58,14 @@ public class AddPlayerActivity extends AppCompatActivity {
 
             @Override
             protected Player doInBackground(Void... voids){
-
-                //creation d'un joueur et de son score
-                Player player = new Player(name, strPP);
-                Score score = new Score(player.getId(), 0, 0, 0);
-
-                //On ajoute le joueur et son score à la BD
-                db.getAppDatabase().playerDao().insert(player);
-                db.getAppDatabase().scoreDao().insert(score);
+                Player player = new Player(name, strPP, 0, 0, 0);
+                db.playerDao().insert(player);
                 return player;
             }
 
             @Override
             protected void onPostExecute(Player player) {
                 super.onPostExecute(player);
-
                 // Quand la tache est créée, on arrête l'activité AddPlayerActivity (on l'enleve de la pile d'activités)
                 setResult(RESULT_OK);
                 finish();
@@ -105,13 +102,5 @@ public class AddPlayerActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Vous n'avez pas choisis d'image",Toast.LENGTH_LONG).show();
         }
-    }
-
-    public String BitMapToString(Bitmap bitmap){
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
-        byte [] b = baos.toByteArray();
-        String temp = Base64.encodeToString(b, Base64.DEFAULT);
-        return temp;
     }
 }
