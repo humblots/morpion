@@ -99,6 +99,7 @@
         android:id="@+id/gridsize"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:inputType="number"
         android:hint="3"/>
 
     <Button
